@@ -1,0 +1,13 @@
+syntax = "proto3";
+package my_protobuf;
+//protoc ./example.proto --python_out=./  编译
+message person {
+    int32 id = 1;
+    string name = 2;
+    //reserved 2表示预留这个数字tag，reserved "maple"预留名字maple，
+    //后面如果有人调用这个tag或者name就是报错。删除如id，可以删除然后reserved 1 or reserved "id"，但是不能在同一行同时出现1"name"这种格式
+}
+
+message all_person{
+    repeated person Per = 1;
+}
