@@ -15,9 +15,9 @@ BOT_NAME = 'myspider'
 LOG_LEVEL = 'WARNING'
 CSV_DELIMITER = "\t"
 FEED_EXPORTERS = {
-    'csv': 'myspider.spiders.csv_item_exporter.MyProjectCsvItemExporter',
+    'csv': 'myspider.spiders.feedexport.CSVkwItemExporter',
 }  # myspider为工程名
-FIELDS_TO_EXPORT = [
+EXPORT_FIELDS = [
     'ranking',
     'movie_name',
     'score',
