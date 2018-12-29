@@ -2,7 +2,7 @@ from scrapy import Request
 from scrapy.spiders import Spider
 from myspider.items import DoubanMovieItem
 
-
+# scrapy crawl douban_movie_top250 -o douban.csv
 class DoubanMovieTop250Spider(Spider):
     name = 'douban_movie_top250'
     headers = {
