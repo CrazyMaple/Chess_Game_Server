@@ -6,9 +6,9 @@ try:
         [
             'scrapy',
             'crawl',
-            'douban_movie_top250',
+            'douban_review_best_spider',
             '-o',
-            'douban.csv',
+            'maple.csv',
         ]
     )
 except SystemExit:
