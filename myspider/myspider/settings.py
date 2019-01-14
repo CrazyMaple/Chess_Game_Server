@@ -18,11 +18,21 @@ FEED_EXPORTERS = {
     'csv': 'myspider.spiders.feedexport.CSVkwItemExporter',
 }  # myspider为工程名
 EXPORT_FIELDS = [
-    'ranking',
     'movie_name',
-    'score',
-    'score_num'
+    'player_name',
+    'player_time',
+    'review_title',
+    'review_content',
+    'review_endorsed',
+    'review_negative',
+    'review_reply'
 ]
+# EXPORT_FIELDS = [
+#     'ranking',
+#     'movie_name',
+#     'score',
+#     'score_num'
+# ]
 
 # new add end
 

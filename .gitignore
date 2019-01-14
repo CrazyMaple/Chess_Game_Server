@@ -1,2 +1,6 @@
 
 *.pyc
+myspider/.vscode/settings.json
+myspider/.vscode/launch.json
+myspider/maple.csv
+*.pyc
