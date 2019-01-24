@@ -1,6 +1,8 @@
 from scrapy import Request
 from scrapy.spiders import Spider
 from myspider.items import DoubanReviewBestItem
+from scrapy_splash import SplashRequest
+import scrapy
 
 
 class DoubanReviewBestSpider(Spider):
@@ -10,13 +12,24 @@ class DoubanReviewBestSpider(Spider):
     }
 
     def start_requests(self):
-        url = 'https://movie.douban.com/review/best/'
-        yield Request(url, headers=self.headers)
+        # url = 'https://movie.douban.com/review/best/'
+        # yield Request(url, headers=self.headers)
+        urls = [
+           'https://movie.douban.com/review/best/',
+        ]
+
+        for url in urls:
+            yield SplashRequest(url, self.parse, args={'wait': 0.5})
 
     def parse(self, response):
         item = DoubanReviewBestItem()
+        sel = scrapy.Selector(response)
+        print('what %s ' % (sel))
         movies = response.xpath('//div[@class="main review-item"]')
         for movie in movies:
+            maple = movie.xpath('/a').extract()
+            maple1 = movie.xpath('/a/img').extract()
+            print('diuni %s %s' % (maple, maple1))
             item['movie_name'] = movie.xpath(
                 '/a/img/@title').extract()[0]
             item['player_name'] = movie.xpath(
