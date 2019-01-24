@@ -27,40 +27,44 @@ class DoubanReviewBestSpider(Spider):
         print('what %s ' % (sel))
         movies = response.xpath('//div[@class="main review-item"]')
         for movie in movies:
-            maple = movie.xpath('/a').extract()
-            maple1 = movie.xpath('/a/img').extract()
-            print('diuni %s %s' % (maple, maple1))
+            # maple1 = movie.xpath(
+            #     './header/a').extract()
+            # maple2 = movie.xpath(
+            #     './header/a[@class="name"]').extract()
+            # maple3 = movie.xpath(
+            #     './header/a[@class="name"]/text()').extract()
+            # print('Sb Is %s %s %s' % (maple1, maple2, maple3))
             item['movie_name'] = movie.xpath(
-                '/a/img/@title').extract()[0]
+                './a/img/@title').extract()[0]
             item['player_name'] = movie.xpath(
-                '/header/a[@class="name xh-highlight"]/text()').extract()[0]
+                './header/a[@class="name"]/text()').extract()[0]
             item['player_time'] = movie.xpath(
-                '/header/span[@class="main-meta xh-highlight"]/text()'
+                './header/span[@class="main-meta"]/text()'
                 ).extract()[0]
             item['review_title'] = movie.xpath(
-                '/div[@class="main-bd"]/h2/a/text()').extract()[0]
-            # content_nodes = movie.xpath(
-            #     '/div[@class="main-bd"]/div[1]/div[0]/div[0]/div
-            # [@class="link-report"]/div[@class="review-content clearfix"]')
-            content_str = "maple"
-            # for node in content_nodes:
-            #     content_str = content_str + movie.xpath(
+                './div[@class="main-bd"]/h2/a/text()').extract()[0]
+            content_nodes = movie.xpath(#这里获取有问题，需要点击
+                './/div[@class="link-report"]'
+                '/div[@class="review-content clearfix"]/p')
+            content_str = ''
+            for index, node in enumerate(content_nodes):
+                content_str = content_str + node.extract()[index]
             item['review_content'] = content_str
             item['review_endorsed'] = movie.xpath((
-                '/div[@class="main-bd"]/div'
+                './div[@class="main-bd"]/div'
                 '[@class="action"]/a[@class="action-btn up"]'
-                '/span/text()')).extract()[0]
+                '/span/text()')).re(r'(\d+)')[0] + '有用'
             item['review_negative'] = movie.xpath((
-                '/div[@class="main-bd"]/div'
+                './div[@class="main-bd"]/div'
                 '[@class="action"]/a[@class="action-btn down"]'
-                '/span/text()')).extract()[0]
+                '/span/text()')).re(r'(\d+)')[0] + '无用'
             item['review_reply'] = movie.xpath((
-                '/div[@class="main-bd"]/div[@class="action"]'
-                '/a[@class="reply"]/text()')).extract()[0]
+                './div[@class="main-bd"]/div[@class="action"]'
+                '/a[@class="reply"]/text()')).re(r'(\d+)回应')[0] + '回应'
             yield item
 
         next_url = response.xpath('//span[@class="next"]/a/@href').extract()
         print('Next Url Is %s' % (next_url))
         if next_url:
-            next_url = 'https://movie.douban.com/review/best/' + next_url[0]
+            next_url = 'https://movie.douban.com' + next_url[0]
             yield Request(next_url, headers=self.headers)

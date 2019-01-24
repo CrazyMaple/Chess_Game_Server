@@ -58,7 +58,19 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "externalTerminal"
+            "console": "externalTerminal",
+            "stopOnEntry": true
+        },
+        {
+            "name": "Python",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "pythonPath": "${config:python.pythonPath}",
+            "program": "${file}",
+            "cwd": "${workspaceRoot}",
+            "env": {"PYTHONPATH":"${workspaceRoot}"},
+            "envFile": "${workspaceRoot}/.env"
         }
     ]
 }
